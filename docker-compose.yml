@@ -2,10 +2,32 @@ version: '3.8'
 
 services:
   whisper:
-    build: .
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.whisper
     ports:
       - "12345:12345"
     volumes:
-      - .:/app
+      - ./src:/app/src
+      - ./config.yml:/app/config.yml
     environment:
       - CONFIG_PATH=/app/config.yml
+
+  sender:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.sender
+    volumes:
+      - ./scripts:/app/scripts
+    environment:
+      - WHISPER_HOST=whisper
+      - WHISPER_PORT=12345
+
+  receiver:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.receiver
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./scripts:/app/scripts

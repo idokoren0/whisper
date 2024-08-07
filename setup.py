@@ -11,7 +11,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'whisper=server:main',  # Ensure the entry point is correctly defined
+            'whisper=src.server:main',
         ],
     },
 )
