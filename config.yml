@@ -1,5 +1,5 @@
 listening_port: 12345
 ip_address: "0.0.0.0"
-target_server: "target.server.com"
-target_port: 80
+target_server: "localhost"
+target_port: 8080
 use_http: true
