@@ -1,0 +1,36 @@
+# Ignore Python bytecode
+**/__pycache__
+**/*.py[cod]
+
+# Ignore virtual environments
+venv/
+ENV/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# Ignore local configuration files
+config.yml
+
+# Ignore test files
+tests/
+
+# Ignore build artifacts
+build/
+dist/
+*.egg-info/
+
+# Ignore logs
+*.log
+
+# Ignore git files
+.git
+.gitignore
+
+# Ignore Docker files
+Dockerfile
+docker-compose.yml
+
+# Ignore secret keys
+secret.key
