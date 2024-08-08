@@ -9,8 +9,10 @@ services:
       - "8080:8080"
     volumes:
       - ./scripts:/app/scripts
+      - ./certs/server.crt:/app/server.crt
+      - ./certs/server.key:/app/server.key
     environment:
-      - USE_HTTP=false  # Set to 'true' to use HTTP, 'false' to use TCP
+      - USE_HTTP=true  # Set to 'true' to use HTTP, 'false' to use TCP
 
   whisper:
     build:
@@ -21,6 +23,7 @@ services:
     volumes:
       - ./src:/app/src
       - ./config.yml:/app/config.yml
+      - ./certs/server.crt:/app/server.crt
     environment:
       - CONFIG_PATH=/app/config.yml
     depends_on:
@@ -37,3 +40,4 @@ services:
       - WHISPER_PORT=12345
     depends_on:
       - whisper
+      

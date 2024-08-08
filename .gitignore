@@ -100,29 +100,7 @@ env/
 env.bak/
 venv.bak/
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# Pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-
 # Secret key
-secret.key
+certs/server.crt
+certs/server.csr
+certs/server.key
