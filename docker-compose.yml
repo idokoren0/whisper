@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  receiver:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.receiver
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./scripts:/app/scripts
+    environment:
+      - USE_HTTP=false  # Set to 'true' to use HTTP, 'false' to use TCP
+
   whisper:
     build:
       context: .
@@ -12,6 +23,8 @@ services:
       - ./config.yml:/app/config.yml
     environment:
       - CONFIG_PATH=/app/config.yml
+    depends_on:
+      - receiver
 
   sender:
     build:
@@ -22,12 +35,5 @@ services:
     environment:
       - WHISPER_HOST=whisper
       - WHISPER_PORT=12345
-
-  receiver:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.receiver
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./scripts:/app/scripts
+    depends_on:
+      - whisper
