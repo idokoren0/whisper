@@ -36,7 +36,7 @@ using the supplied docker compose file.
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/whisper.git
+    git clone https://github.com/idokoren0/whisper.git
     cd whisper
     ```
 
