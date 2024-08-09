@@ -9,10 +9,12 @@ class DataSender:
         self.logger = logging.getLogger(__name__)
 
     def send_data(self, enriched_data):
-        if self.config.use_http:
+        if self.config.data_transfer == 'http':
             self.send_data_http(enriched_data)
-        else:
+        elif self.config.data_transfer == 'tcp':
             self.send_data_tcp(enriched_data)
+        else:
+            self.logger.error(f"Unknown data transfer method: {self.config.data_transfer}")
 
     def send_data_http(self, enriched_data):
         try:

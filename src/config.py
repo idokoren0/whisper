@@ -8,4 +8,4 @@ class Config:
         self.ip_address = config['ip_address']
         self.target_server = config['target_server']
         self.target_port = config['target_port']
-        self.use_http = config['use_http']
+        self.data_transfer = config.get('data_transfer', 'tcp')

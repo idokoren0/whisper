@@ -12,7 +12,7 @@ services:
       - ./certs/server.crt:/app/server.crt
       - ./certs/server.key:/app/server.key
     environment:
-      - USE_HTTP=false  # Set to 'true' to use HTTP, 'false' to use TCP
+      - DATA_TRANSFER=http  # Set to: tcp or http
 
   whisper:
     build:
