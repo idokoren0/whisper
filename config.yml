@@ -2,4 +2,4 @@ listening_port: 12345
 ip_address: "0.0.0.0"
 target_server: "receiver"
 target_port: 8080
-use_http: true
+use_http: false
