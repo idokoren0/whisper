@@ -9,6 +9,8 @@ services:
       - "8080:8080"
     volumes:
       - ./scripts:/app/scripts
+      - ./certs/server.crt:/app/server.crt
+      - ./certs/server.key:/app/server.key
     environment:
       - USE_HTTP=false  # Set to 'true' to use HTTP, 'false' to use TCP
 
@@ -20,7 +22,8 @@ services:
       - "12345:12345"
     volumes:
       - ./src:/app/src
-      - ./config.yml:/app/config.yml
+      - ./config.yml:/app/config.yml:ro  # Mount config.yml as read-only
+      - ./certs/server.crt:/app/server.crt
     environment:
       - CONFIG_PATH=/app/config.yml
     depends_on:
