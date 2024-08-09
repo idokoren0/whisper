@@ -20,7 +20,25 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build the Docker image for testing
-        run: docker build -f docker/Dockerfile.whisper_test -t whisper-test .
+        run: docker build -f Dockerfile.test -t whisper-test .
 
-      - name: Run tests inside Docker
-        run: docker run --rm whisper-test
+      - name: Run tests inside Docker and generate reports
+        run: docker run --name whisper-test-container whisper-test
+
+      - name: Copy test reports to the host
+        run: docker cp whisper-test-container:/app/report.html report.html
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: report.html
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: htmlcov/
+
+      - name: Clean up
+        run: docker rm whisper-test-container

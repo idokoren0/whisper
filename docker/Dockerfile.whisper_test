@@ -5,9 +5,11 @@ FROM python:3.12-slim
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt && pip install pytest
+RUN pip install --no-cache-dir -r requirements.txt 
+RUN pip install pytest pytest-html pytest-cov
 
 COPY . /app
 
-# Run the test suite
-CMD ["pytest", "tests/"]
+
+# Run the test suite and generate reports
+CMD ["pytest", "--cov=src", "--cov-report=term", "--cov-report=html", "--html=report.html", "--self-contained-html", "tests/"]
