@@ -26,8 +26,10 @@ jobs:
         run: docker run --name whisper-test-container whisper-test
 
       - name: Copy test reports to the host
-        run: docker cp whisper-test-container:/app/report.html report.html
-
+        run: |
+          docker cp whisper-test-container:/app/report.html report.html
+          docker cp whisper-test-container:/app/htmlcov htmlcov
+      
       - name: Upload test report
         uses: actions/upload-artifact@v3
         with:
