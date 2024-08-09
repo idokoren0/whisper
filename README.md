@@ -45,9 +45,7 @@ using the supplied docker compose file.
 
 3. Configure according to your needs:
     whisper can send data over tcp or http, and receive that configuration
-    togther with a few other values in the config.yml file. When setting 
-    "Use HTTP" to true or false, it's important to also set the value 
-    accordingly in the enviornment variable for Receivers docker compose.
+    togther with a few other values in the config.yml file. For TCP transfer set DATA_TRANSFER to: tcp, for HTTP set it to http.
 
 4. Build and start the services:
     ```sh

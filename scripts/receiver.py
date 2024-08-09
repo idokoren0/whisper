@@ -56,12 +56,14 @@ def start_http_server(listen_host, listen_port):
 def main():
     listen_host = '0.0.0.0'
     listen_port = 8080
-    use_http = os.environ.get('USE_HTTP', 'false').lower() == 'true'
+    data_transfer = os.environ.get('DATA_TRANSFER', 'tcp')
 
-    if use_http:
+    if data_transfer == 'tcp':
+        start_tcp_server(listen_host, listen_port)
+    elif data_transfer == 'http':
         start_http_server(listen_host, listen_port)
     else:
-        start_tcp_server(listen_host, listen_port)
+        logger.error(f"Unsuppored data transfer method: {data_transfer}")
 
 if __name__ == '__main__':
     main()
