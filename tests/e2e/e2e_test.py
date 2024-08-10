@@ -6,6 +6,9 @@ class TestE2E(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # Initialize logs attribute to avoid AttributeError
+        cls.logs = ""
+
         # Start the services using docker-compose
         subprocess.run(["docker-compose", "up", "-d"], check=True)
         # Allow some time for services to start
@@ -14,7 +17,11 @@ class TestE2E(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         # Fetch logs before stopping the services
-        cls.logs = cls.get_logs("receiver")
+        try:
+            cls.logs = cls.get_logs("receiver")
+        except Exception as e:
+            print(f"Error fetching logs: {e}")
+            cls.logs = ""
 
         # Stop the services and clean up
         subprocess.run(["docker-compose", "down", "--volumes", "--remove-orphans"], check=True)
