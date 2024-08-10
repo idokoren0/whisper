@@ -12,7 +12,7 @@ services:
       - ./certs/server.crt:/app/server.crt
       - ./certs/server.key:/app/server.key
     environment:
-      - DATA_TRANSFER=http  # Set to: tcp or http
+      - DATA_TRANSFER=tcp  # Set to: tcp or http
 
   whisper:
     build:
