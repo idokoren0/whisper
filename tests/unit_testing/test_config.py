@@ -7,7 +7,7 @@ class TestConfig(unittest.TestCase):
     unit_test_config.yml yeild expected values 
     '''
     def setUp(self):
-        self.config_file = 'tests/unit_test_config.yml'
+        self.config_file = 'tests/unit_testing/unit_test_config.yml'
         self.config = Config(self.config_file)
     
     def test_listening_port(self):
