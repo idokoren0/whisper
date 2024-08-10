@@ -9,14 +9,14 @@ class TestE2E(unittest.TestCase):
         # Start the services using docker-compose
         subprocess.run(["pwd"])
         subprocess.run(["ls", "-l"])
-        subprocess.run(["docker-compose", "-f", "tests/e2e/docker-compose.e2e.yml", "up", "-d"])
+        subprocess.run(["docker-compose", "up", "-d"])
         # Allow some time for services to start
         time.sleep(10)
 
     @classmethod
     def tearDownClass(cls):
         # Stop the services and clean up
-        subprocess.run(["docker-compose", "-f", "tests/e2e/docker-compose.e2e.yml", "down"])
+        subprocess.run(["docker-compose", "down", "--volumes", "--remove-orphans"], check=True)
 
     def test_message_flow(self):
         # Wait a bit to ensure the message flow has happened
@@ -24,7 +24,7 @@ class TestE2E(unittest.TestCase):
 
         # Fetch logs from the receiver container
         result = subprocess.run(
-            ["docker-compose", "-f", "tests/e2e/docker-compose.e2e.yml", "logs", "receiver"],
+            ["docker-compose", "logs", "receiver"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True

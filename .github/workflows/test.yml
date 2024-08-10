@@ -65,8 +65,13 @@ jobs:
       
       - name: Generate Certificates
         run: |
-          openssl x509 -req -in certs/server.csr -signkey server.key -out certs/server.crt -days 365 -extfile certs/extfile.cnf
-
+          openssl genpkey -algorithm RSA -out certs/server.key
+          openssl req -new -key certs/server.key -out certs/server.csr -subj "/CN=receiver"
+          cat > certs/extfile.cnf <<EOL
+          subjectAltName = DNS:receiver
+          EOL
+          openssl x509 -req -in certs/server.csr -signkey certs/server.key -out certs/server.crt -days 365 -extfile certs/extfile.cnf
+          
       - name: Run E2E tests
         run: |
           python tests/e2e/e2e_test.py
