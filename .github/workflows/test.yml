@@ -42,5 +42,8 @@ jobs:
           name: coverage-report
           path: htmlcov/
 
+      - name: Run E2E tests
+        run: python tests/e2e_test.py
+
       - name: Clean up
         run: docker rm whisper-test-container
