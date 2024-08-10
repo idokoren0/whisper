@@ -1,10 +1,12 @@
 # Create a private key
 openssl genpkey -algorithm RSA -out server.key
 
-# Create a certificate signing request (CSR) with the correct hostname
+# Create a certificate signing request (CSR) with the correct hostname.
+# The default is receiver, but change it to your needs.
 openssl req -new -key server.key -out server.csr -subj "/CN=receiver"
 
 # Create a configuration file for the extensions
+# Again, change the hostname to your needs.
 cat > extfile.cnf <<EOL
 subjectAltName = DNS:receiver
 EOL

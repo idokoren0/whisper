@@ -41,13 +41,14 @@ services:
     depends_on:
       - whisper
 
-  # terminator:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/Dockerfile.terminator
-  #   environment:
-  #     - WHISPER_HOST=whisper
-  #     - WHISPER_PORT=12345
-  #     - TERMINATION_MESSAGE=TERMINATE
-  #   depends_on:
-  #     - whisper
+  terminator:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.terminator
+    environment:
+      - WHISPER_HOST=whisper
+      - WHISPER_PORT=12345
+      - TERMINATION_MESSAGE=TERMINATE
+      - TERMINATION_DELAY=100
+    depends_on:
+      - whisper
