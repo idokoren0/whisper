@@ -47,13 +47,14 @@ They communicate over a default docker bridge network and can be orchestrated us
     whisper\certs\create_certs.txt
     Whisper wont work without them.
     After certificate createion, the certs dir should look like this:
+    ```
     ── certs/
        ├── create_certs.txt
        ├── extfile.cnf
        ├── server.crt
        ├── server.csr
        └── server.key
-    
+    ```
 
 3. Configure according to your needs:
     
