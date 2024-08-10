@@ -32,7 +32,7 @@ class TestE2E(unittest.TestCase):
     def test_message_flow(self):
 
         # Poll logs until the expected message is found or timeout occurs
-        expected_message = "Hello Whisper, this is a test message!"
+        expected_message = "Hello There"
         found = self.poll_logs_for_message("receiver", expected_message)
 
         self.assertTrue(found, "The expected message was not found in the receiver's logs.")
