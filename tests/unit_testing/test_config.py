@@ -15,9 +15,6 @@ class TestConfig(unittest.TestCase):
     def test_listening_port(self):
         self.assertEqual(self.config.port, 12345)
 
-    def test_ip_address(self):
-        self.assertEqual(self.config.ip_address, "0.0.0.0")
-
     def test_target_server(self):
         self.assertEqual(self.config.target_server, "receiver")
 

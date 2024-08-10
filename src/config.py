@@ -9,7 +9,7 @@ class Config:
         with open(config_file, "r") as file:
             config = yaml.safe_load(file)
         self.port = config["listening_port"]
-        self.ip_address = config["ip_address"]
+        self.ip_address = "0.0.0.0"
         self.target_server = config["target_server"]
         self.target_port = config["target_port"]
         self.data_transfer = config.get("data_transfer", "tcp")

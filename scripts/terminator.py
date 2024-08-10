@@ -11,11 +11,12 @@ def main():
     whisper_host = os.environ.get("WHISPER_HOST", "whisper")
     whisper_port = int(os.environ.get("WHISPER_PORT", 12345))
     termination_message = os.environ.get("TERMINATION_MESSAGE", "TERMINATE")
+    termination_delay = int(os.environ.get("TERMINATION_DELAY", 100))
 
     logger.info(
-        "Terminator service started. Waiting 20 seconds before sending termination message..."
+        f"Terminator service started. Waiting {termination_delay} seconds before sending termination message..."
     )
-    time.sleep(20)
+    time.sleep(termination_delay)
 
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as terminator_socket:
