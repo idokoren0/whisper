@@ -13,5 +13,5 @@ class Config:
         self.target_server = config["target_server"]
         self.target_port = config["target_port"]
         self.data_transfer = config.get("data_transfer", "tcp")
-        self.terminator_message = config["terminator"]["trigger_message"]
-        self.terminator_ip = config["terminator"]["trigger_ip"]
+        self.terminator_message = config["terminator"]["terminator_message"]
+        self.terminator_ip = config["terminator"]["terminator_ip"]

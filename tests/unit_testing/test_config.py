@@ -26,6 +26,12 @@ class TestConfig(unittest.TestCase):
 
     def test_data_transfer_method(self):
         self.assertEqual(self.config.data_transfer, "tcp")
+    
+    def test_terminator_message(self):
+        self.assertEqual(self.config.terminator_message, "TERMINATE")
+
+    def test_terminator_ip(self):
+        self.assertEqual(self.config.terminator_ip, "172.19.0.5")
 
 
 if __name__ == "__main__":
