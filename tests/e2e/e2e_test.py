@@ -8,7 +8,7 @@ class TestE2E(unittest.TestCase):
     def setUpClass(cls):
         # Start the services using docker-compose
         subprocess.run(["pwd"])
-        subprocess.run(["ls", "l"])
+        subprocess.run(["ls", "-l"])
         subprocess.run(["docker-compose", "-f", "docker-compose.e2e.yml", "up", "-d"])
         # Allow some time for services to start
         time.sleep(10)
