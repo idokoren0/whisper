@@ -5,10 +5,13 @@ services:
     build:
       context: ../../
       dockerfile: docker/Dockerfile.whisper
+    volumes:
+      - ../../certs/server.crt:/app/server.crt
+      - ./e2e_config.yml:/app/config.yml:ro
     ports:
       - "12345:12345"
     environment:
-      - CONFIG_PATH=tests/e2e/e2e_config.yml
+      - CONFIG_PATH=/app/e2e_config.yml
 
   sender:
     build:
@@ -24,5 +27,8 @@ services:
       dockerfile: docker/Dockerfile.receiver
     ports:
       - "8080:8080"
+    volumes:
+      - ../../certs/server.crt:/app/server.crt
+      - ../../certs/server.key:/app/server.key
     environment:
       - DATA_TRANSFER=tcp

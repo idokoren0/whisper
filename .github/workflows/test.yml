@@ -60,6 +60,13 @@ jobs:
       - name: Install Docker Compose
         run: sudo apt-get update && sudo apt-get install -y docker-compose
       
+      - name: Install OpenSSL
+        run: sudo apt-get install -y openssl
+      
+      - name: Generate Certificates
+        run: |
+          openssl x509 -req -in certs/server.csr -signkey server.key -out certs/server.crt -days 365 -extfile certs/extfile.cnf
+
       - name: Run E2E tests
         run: |
           python tests/e2e/e2e_test.py
