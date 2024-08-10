@@ -19,7 +19,7 @@ Whisper facilitates the reception, processing, and transmission of data through 
 - **Whisper**: Processes the received data, enriches it, and prepares it for sending over TCP or HTTPS.
 - **Sender**: Sends data to a designated target (Whisper).
 - **Terminator**: Sends a terminate message to whisper to remove all trace
-of itself. By default, sends that message after 100 seconds from start, can be configrued via env var in docker compose.
+of itself. By default, sends that message after 100 seconds from start, can be configrued via env var in docker compose. Doesnt remove mounted files.
 
 **WHISPER** is the main component of this project, and the supplied Receiver server, Sender and Terminator are examples for implemntations that you may use or replace however you see fit.
 
