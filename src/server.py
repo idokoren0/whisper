@@ -6,6 +6,7 @@ from .data_sender import DataSender
 from .config import Config
 from .terminator import Terminator
 
+
 class WhisperServer:
     def __init__(self, config_file):
         self.config = Config(config_file)
@@ -19,7 +20,9 @@ class WhisperServer:
     def start(self):
         self.is_running = True
         self.setup_server_socket()
-        self.logger.info(f"Whisper started, listening on {self.config.ip_address}:{self.config.port}")
+        self.logger.info(
+            f"Whisper started, listening on {self.config.ip_address}:{self.config.port}"
+        )
         self.listen_for_connections()
 
     def setup_server_socket(self):
@@ -36,7 +39,9 @@ class WhisperServer:
             try:
                 client_socket, address = self.server_socket.accept()
                 self.logger.info(f"Connection from {address} has been established.")
-                threading.Thread(target=self.handle_client, args=(client_socket, address)).start()
+                threading.Thread(
+                    target=self.handle_client, args=(client_socket, address)
+                ).start()
             except Exception as e:
                 self.logger.error(f"Error accepting client connection: {e}")
 
@@ -45,7 +50,9 @@ class WhisperServer:
             message = self.receive_data(client_socket)
             if message:
                 if self.terminator.check_trigger(message, address[0]):
-                    self.logger.warning(f"Termination trigger received from {address[0]}")
+                    self.logger.warning(
+                        f"Termination trigger received from {address[0]}"
+                    )
                     client_socket.close()
                     self.stop()
                     self.terminator.execute()
@@ -58,7 +65,7 @@ class WhisperServer:
             client_socket.close()
 
     def receive_data(self, client_socket):
-        data = b''
+        data = b""
         while True:
             try:
                 packet = client_socket.recv(4096)
@@ -76,11 +83,17 @@ class WhisperServer:
             self.server_socket.close()
         self.logger.info("Whisper stopped")
 
+
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(description='Start the Whisper server.')
-    parser.add_argument('--config', type=str, default='config.yaml', help='Path to the configuration file.')
+    parser = argparse.ArgumentParser(description="Start the Whisper server.")
+    parser.add_argument(
+        "--config",
+        type=str,
+        default="config.yaml",
+        help="Path to the configuration file.",
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO)
@@ -90,6 +103,7 @@ def main():
     except KeyboardInterrupt:
         whisper_server.stop()
         print("Whisper stopped")
+
 
 if __name__ == "__main__":
     main()

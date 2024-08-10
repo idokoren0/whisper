@@ -2,6 +2,7 @@ import unittest
 import subprocess
 import time
 
+
 class TestE2E(unittest.TestCase):
 
     @classmethod
@@ -19,7 +20,7 @@ class TestE2E(unittest.TestCase):
                 ["docker-compose", "logs", container],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                universal_newlines=True
+                universal_newlines=True,
             )
             logs = result.stdout
             print(logs)
@@ -35,13 +36,17 @@ class TestE2E(unittest.TestCase):
         expected_message = "Hello There"
         found = self.poll_logs_for_message("receiver", expected_message)
 
-        self.assertTrue(found, "The expected message was not found in the receiver's logs.")
-    
+        self.assertTrue(
+            found, "The expected message was not found in the receiver's logs."
+        )
+
     @classmethod
     def tearDownClass(cls):
         # Stop the services and clean up
-        subprocess.run(["docker-compose", "down", "--volumes", "--remove-orphans"], check=True)
+        subprocess.run(
+            ["docker-compose", "down", "--volumes", "--remove-orphans"], check=True
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
