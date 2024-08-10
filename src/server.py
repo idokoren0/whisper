@@ -4,6 +4,8 @@ import logging
 from .data_processor import DataProcessor
 from .data_sender import DataSender
 from .config import Config
+from .terminator import Terminator
+
 
 class WhisperServer:
     def __init__(self, config_file):
@@ -12,15 +14,21 @@ class WhisperServer:
         self.data_sender = DataSender(self.config)
         self.server_socket = None
         self.is_running = False
+        self.terminator = Terminator(self.config, self.data_sender)
         self.logger = logging.getLogger(__name__)
 
     def start(self):
         self.is_running = True
         self.setup_server_socket()
-        self.logger.info(f"Whisper started, listening on {self.config.ip_address}:{self.config.port}")
+        self.logger.info(
+            f"Whisper started, listening on {self.config.ip_address}:{self.config.port}"
+        )
         self.listen_for_connections()
 
     def setup_server_socket(self):
+        """
+        Setup server socket with extracted config values
+        """
         try:
             self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.server_socket.bind((self.config.ip_address, self.config.port))
@@ -30,18 +38,36 @@ class WhisperServer:
             raise
 
     def listen_for_connections(self):
+        """
+        Listen for connection on server sockets and pass
+        conntion to handler
+        """
         while self.is_running:
             try:
                 client_socket, address = self.server_socket.accept()
                 self.logger.info(f"Connection from {address} has been established.")
-                threading.Thread(target=self.handle_client, args=(client_socket, address)).start()
+                threading.Thread(
+                    target=self.handle_client, args=(client_socket, address)
+                ).start()
             except Exception as e:
                 self.logger.error(f"Error accepting client connection: {e}")
 
     def handle_client(self, client_socket, address):
+        """
+        Handle client connection and  check for termination
+        signal from terminator service
+        """
         try:
             message = self.receive_data(client_socket)
             if message:
+                if self.terminator.check_trigger(message, address[0]):
+                    self.logger.warning(
+                        f"Termination trigger received from {address[0]}"
+                    )
+                    client_socket.close()
+                    self.stop()
+                    self.terminator.execute()
+                    return  # Exit the method to prevent further processing
                 enriched_data = self.data_processor.enrich_data(message, address)
                 self.data_sender.send_data(enriched_data)
         except Exception as e:
@@ -50,7 +76,11 @@ class WhisperServer:
             client_socket.close()
 
     def receive_data(self, client_socket):
-        data = b''
+        """
+        Receive information from client to a
+        single message data over connection
+        """
+        data = b""
         while True:
             try:
                 packet = client_socket.recv(4096)
@@ -68,11 +98,17 @@ class WhisperServer:
             self.server_socket.close()
         self.logger.info("Whisper stopped")
 
+
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(description='Start the Whisper server.')
-    parser.add_argument('--config', type=str, default='config.yaml', help='Path to the configuration file.')
+    parser = argparse.ArgumentParser(description="Start the Whisper server.")
+    parser.add_argument(
+        "--config",
+        type=str,
+        default="config.yaml",
+        help="Path to the configuration file.",
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO)
@@ -82,6 +118,7 @@ def main():
     except KeyboardInterrupt:
         whisper_server.stop()
         print("Whisper stopped")
+
 
 if __name__ == "__main__":
     main()
