@@ -4,10 +4,10 @@ from src.config import Config
 class TestConfig(unittest.TestCase):
     '''
     test that config values extraction 
-    dummy_config.yml yeild expected values 
+    unit_test_config.yml yeild expected values 
     '''
     def setUp(self):
-        self.config_file = 'tests/dummy_config.yml'
+        self.config_file = 'tests/unit_test_config.yml'
         self.config = Config(self.config_file)
     
     def test_listening_port(self):

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  whisper:
+    build:
+      context: .
+      dockerfile: /app/docker/Dockerfile.whisper
+    ports:
+      - "12345:12345"
+    environment:
+      - CONFIG_PATH=/app/tests/E2E/e2e_config.yml
+
+  sender:
+    build:
+      context: .
+      dockerfile: /app/docker/Dockerfile.sender
+    environment:
+      - WHISPER_HOST=whisper
+      - WHISPER_PORT=12345
+
+  receiver:
+    build:
+      context: .
+      dockerfile: /app/docker/Dockerfile.receiver
+    ports:
+      - "8080:8080"
+    environment:
+      - DATA_TRANSFER=tcp
