@@ -3,7 +3,7 @@ version: '3.8'
 services:
   whisper:
     build:
-      context: .
+      context: ../../
       dockerfile: docker/Dockerfile.whisper
     ports:
       - "12345:12345"
@@ -12,7 +12,7 @@ services:
 
   sender:
     build:
-      context: .
+      context: ../../
       dockerfile: docker/Dockerfile.sender
     environment:
       - WHISPER_HOST=whisper
@@ -20,7 +20,7 @@ services:
 
   receiver:
     build:
-      context: .
+      context: ../../
       dockerfile: docker/Dockerfile.receiver
     ports:
       - "8080:8080"
