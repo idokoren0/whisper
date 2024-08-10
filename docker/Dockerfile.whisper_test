@@ -12,4 +12,4 @@ COPY . /app
 
 
 # Run the test suite and generate reports
-CMD ["pytest", "--cov=src", "--cov-report=term", "--cov-report=html", "--html=report.html", "--self-contained-html", "tests/"]
+CMD ["pytest", "--cov=src", "--cov-report=term", "--cov-report=html", "--html=report.html", "--self-contained-html", "tests/unit_testing/"]
