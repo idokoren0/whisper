@@ -33,6 +33,7 @@ They communicate over a default docker bridge network and can be orchestrated us
 
 - Docker
 - Docker Compose (Optional)
+- openssl (for certificate generation)
 
 ### Setup
 
@@ -42,8 +43,17 @@ They communicate over a default docker bridge network and can be orchestrated us
     cd whisper
     ```
 
-2. Create Certificates using the supplied guide under:
+2. **IMPORTANT** Create Certificates using the supplied guide under:
     whisper\certs\create_certs.txt
+    Whisper wont work without them.
+    After certificate createion, the certs dir should look like this:
+    ── certs/
+       ├── create_certs.txt
+       ├── extfile.cnf
+       ├── server.crt
+       ├── server.csr
+       └── server.key
+    
 
 3. Configure according to your needs:
     
@@ -55,12 +65,55 @@ They communicate over a default docker bridge network and can be orchestrated us
     Whisper, Sender, Receiver, Terminator.
     Feel free to comment out/remove the services you dont need from
     docker compsoe.
+    To start the services:
     ```sh
     docker-compose up --build
     ```
     
 ## Configuration
 
-If supplied 
-docker compose file is not used, it is important to supply the env
-variable specified per service in the compose file.
+
+Configuration for **whisper** is managed through the `config.yml` file, where you can define key parameters like listening ports, IP addresses, data transfer methods, and the termination message. For all other services, the configuration values are passed as ENV vars.
+
+### Example Configuration for whisper (`config.yml`):
+```yaml
+listening_port: 12345
+target_server: "receiver"
+target_port: 8080
+data_transfer: tcp # tcp OR http
+terminator:
+  terminator_message: "TERMINATE"
+  terminator_ip: "172.19.0.5" # Insert IP here, NOT hostname
+```
+
+When changing data_transfer values, it's important to set the same
+value as an Env Var for Receiver. To notify receiver to expect tcp
+communication from whisper, you would set the docker compsoe as such:
+
+```yaml
+  receiver:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.receiver
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./scripts:/app/scripts
+      - ./certs/server.crt:/app/server.crt
+      - ./certs/server.key:/app/server.key
+    environment:
+      - DATA_TRANSFER=tcp  # Set to: tcp or http
+```
+
+## Usage
+Afer startup of all of the services, communication will flow from sender
+to whisper and then receiver automaticlly, and after the set time, terminator will send a terminate message to whisper. 
+If you would like to only start whisper, it will just wait for any data to enrich and pass. You may test it by sending a message with curl without using sender:
+```bash
+curl telnet://0.0.0.0:12345 -T <(echo hello there)
+```
+
+## Testing
+Unit Tests and E2E test are included in the project.
+E2E test the flow of data from sender to reciver and checks the message was transferred through whisper.
+Unit tests are lacking coverage of server, sender and terminator.

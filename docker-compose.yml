@@ -49,6 +49,6 @@ services:
       - WHISPER_HOST=whisper
       - WHISPER_PORT=12345
       - TERMINATION_MESSAGE=TERMINATE
-      - TERMINATION_DELAY=100
+      - TERMINATION_DELAY=10
     depends_on:
       - whisper
