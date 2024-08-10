@@ -52,8 +52,8 @@ They communicate over a default docker bridge network and can be orchestrated us
     apt-get install openssl 
     ./generate_certificate.sh
     ```
-    Whisper wont work without them.
-    After certificate createion, the certs dir should look like this:
+    Whisper won't work without them.
+    After certificate creation, the certs dir should look like this:
     ```
     ── certs/
        ├── create_certs.txt
@@ -66,7 +66,7 @@ They communicate over a default docker bridge network and can be orchestrated us
 3. Configure according to your needs:
     
     whisper can send data over tcp or http, and receive that configuration
-    togther with a few other values in the config.yml file. For TCP transfer set DATA_TRANSFER to: tcp, for HTTP set it to http. For further detail refrence the configuration section of this guide.
+    together with a few other values in the config.yml file. For TCP transfer set DATA_TRANSFER to: tcp, for HTTP set it to http. For further detail reference the configuration section of this guide.
 
 4. Build and start the services:
     The docker compose file assuems a need for all of the services:
@@ -96,7 +96,7 @@ terminator:
 
 When changing data_transfer values, it's important to set the same
 value as an Env Var for Receiver. To notify receiver to expect tcp
-communication from whisper, you would set the docker compsoe as such:
+communication from whisper, you would set the docker compose as such:
 
 ```yaml
   receiver:
@@ -114,8 +114,8 @@ communication from whisper, you would set the docker compsoe as such:
 ```
 
 ## Usage
-Afer startup of all of the services, communication will flow from sender
-to whisper and then receiver automaticlly, and after the set time, terminator will send a terminate message to whisper. 
+After startup of all of the services, communication will flow from Sender
+to whisper and then receiver automatically, and after the set time, terminator will send a terminate message to whisper. 
 If you would like to only start whisper, it will just wait for any data to enrich and pass. You may test it by sending a message with curl without using sender:
 ```bash
 curl telnet://0.0.0.0:12345 -T <(echo hello there)
@@ -123,5 +123,6 @@ curl telnet://0.0.0.0:12345 -T <(echo hello there)
 
 ## Testing
 Unit Tests and E2E test are included in the project.
-E2E test the flow of data from sender to reciver and checks the message was transferred through whisper.
-Unit tests are lacking coverage of server, sender and terminator.
+E2E test the flow of data from sender to receiver and checks the message was transferred through whisper.
+Unit tests lack coverage of server, sender and terminator.
+Test results are uploaded as artifacts.
