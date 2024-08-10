@@ -8,7 +8,7 @@ services:
     ports:
       - "12345:12345"
     environment:
-      - CONFIG_PATH=tests/tests/e2e/e2e_config.yml
+      - CONFIG_PATH=tests/e2e/e2e_config.yml
 
   sender:
     build:

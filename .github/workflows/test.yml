@@ -58,4 +58,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Run E2E tests
-        run: python tests/e2e/e2e_test.py
+        run: |
+          pwd
+          ls -l
+          python tests/e2e/e2e_test.py
