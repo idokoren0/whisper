@@ -3,6 +3,9 @@ import yaml
 
 class Config:
     def __init__(self, config_file):
+        """
+        Extract confing values from yaml file
+        """
         with open(config_file, "r") as file:
             config = yaml.safe_load(file)
         self.port = config["listening_port"]

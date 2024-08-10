@@ -1,5 +1,3 @@
-# File: scripts/terminator_service.py
-
 import socket
 import time
 import os

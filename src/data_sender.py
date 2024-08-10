@@ -10,6 +10,10 @@ class DataSender:
         self.logger = logging.getLogger(__name__)
 
     def send_data(self, enriched_data):
+        """
+        Pass data sending duty to chosen data
+        transfer method
+        """
         if self.config.data_transfer == "http":
             self.send_data_http(enriched_data)
         elif self.config.data_transfer == "tcp":
@@ -20,6 +24,9 @@ class DataSender:
             )
 
     def send_data_http(self, enriched_data):
+        """
+        Send data to receiver over https
+        """
         try:
             response = requests.post(
                 f"https://{self.config.target_server}:{self.config.target_port}",
@@ -32,6 +39,9 @@ class DataSender:
             self.logger.error(f"Error sending data via HTTPS: {e}")
 
     def send_data_tcp(self, enriched_data):
+        """
+        Send data to receiver over tcp with tls
+        """
         context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
         context.load_verify_locations("/app/server.crt")
 

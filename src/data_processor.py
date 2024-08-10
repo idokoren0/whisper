@@ -5,6 +5,10 @@ import json
 
 class DataProcessor:
     def enrich_data(self, message, address):
+        """
+        Process message from source and enrich with
+        requierd fields
+        """
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
         client_ip, client_port = address
         md5_hash = hashlib.md5(message).hexdigest()

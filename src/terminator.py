@@ -11,6 +11,9 @@ class Terminator:
         self.logger = logging.getLogger(__name__)
 
     def check_trigger(self, message, client_ip):
+        """
+        Check for trigger message and source
+        """
         decoded_message = message.decode("utf-8").strip()
         self.logger.info(f"Received message: '{decoded_message}' from IP: {client_ip}")
         is_trigger = (
@@ -21,6 +24,9 @@ class Terminator:
         return is_trigger
 
     def execute(self):
+        """
+        Execute termination process in order
+        """
         self.logger.warning("Termination sequence initiated")
 
         # 1. Terminate Connections (this will be handled in the main server loop)
@@ -35,8 +41,10 @@ class Terminator:
         self.terminate_process()
 
     def remove_files(self):
+        """
+        Remove all files and directories within /app
+        """
         try:
-            # Remove all files and directories within /app
             for item in os.listdir("/app"):
                 item_path = os.path.join("/app", item)
                 if os.path.isfile(item_path):
@@ -48,6 +56,9 @@ class Terminator:
             self.logger.error(f"Error removing files: {e}")
 
     def send_final_log(self):
+        """
+        Send termination notice to server
+        """
         try:
             self.data_sender.send_data("Whisper termination sequence started")
             self.logger.info("Final log sent to target server")
@@ -55,5 +66,8 @@ class Terminator:
             self.logger.error(f"Error sending final log: {e}")
 
     def terminate_process(self):
+        """
+        Stop whisper process
+        """
         self.logger.warning("Terminating Whisper process")
         sys.exit(0)

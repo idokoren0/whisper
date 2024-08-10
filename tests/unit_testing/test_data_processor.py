@@ -1,7 +1,6 @@
 import unittest
 from unittest.mock import patch
 from src.data_processor import DataProcessor
-import time
 import hashlib
 import json
 

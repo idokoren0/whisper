@@ -26,6 +26,9 @@ class WhisperServer:
         self.listen_for_connections()
 
     def setup_server_socket(self):
+        """
+        Setup server socket with extracted config values
+        """
         try:
             self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.server_socket.bind((self.config.ip_address, self.config.port))
@@ -35,6 +38,10 @@ class WhisperServer:
             raise
 
     def listen_for_connections(self):
+        """
+        Listen for connection on server sockets and pass
+        conntion to handler
+        """
         while self.is_running:
             try:
                 client_socket, address = self.server_socket.accept()
@@ -46,6 +53,10 @@ class WhisperServer:
                 self.logger.error(f"Error accepting client connection: {e}")
 
     def handle_client(self, client_socket, address):
+        """
+        Handle client connection and  check for termination
+        signal from terminator service
+        """
         try:
             message = self.receive_data(client_socket)
             if message:
@@ -65,6 +76,10 @@ class WhisperServer:
             client_socket.close()
 
     def receive_data(self, client_socket):
+        """
+        Receive information from client to a
+        single message data over connection
+        """
         data = b""
         while True:
             try:
