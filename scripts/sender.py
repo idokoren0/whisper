@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 def main():
     target_host = os.environ.get('WHISPER_HOST', 'localhost')
     target_port = int(os.environ.get('WHISPER_PORT', 12345))
-    message = 'Hello Whisper, this is a test message!'
+    message = 'Hello There'
 
     while True:
         try:

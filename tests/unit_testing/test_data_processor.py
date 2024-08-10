@@ -17,7 +17,7 @@ class TestDataProcessor(unittest.TestCase):
         '''
         mock_strftime.return_value = '2024-08-09 12:34:56'
         
-        message = b"Hello, world!"
+        message = b"Hello There"
         address = ('0.0.0.0', 12345)
         
         result = self.data_processor.enrich_data(message, address)
@@ -38,7 +38,7 @@ class TestDataProcessor(unittest.TestCase):
         '''
         Test that the MD5 hash is correctly computed for message
         '''
-        message = b"Test message"
+        message = b"Hello There"
         expected_md5 = hashlib.md5(message).hexdigest()
         
         address = ('0.0.0.0', 12345)
@@ -53,7 +53,7 @@ class TestDataProcessor(unittest.TestCase):
         '''
         Test that the returned data is in a valid JSON format
         '''
-        message = b"Another test message"
+        message = b"Hello There"
         address = ('0.0.0.0', 54321)
         
         result = self.data_processor.enrich_data(message, address)
