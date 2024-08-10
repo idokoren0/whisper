@@ -22,7 +22,7 @@ services:
       - "12345:12345"
     volumes:
       - ./src:/app/src
-      - ./config.yml:/app/config.yml:ro  # Mount config.yml as read-only
+      - ./config.yml:/app/config.yml:ro
       - ./certs/server.crt:/app/server.crt
     environment:
       - CONFIG_PATH=/app/config.yml
