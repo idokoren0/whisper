@@ -2,6 +2,10 @@ import unittest
 from src.config import Config
 
 class TestConfig(unittest.TestCase):
+    '''
+    test that config values extraction 
+    dummy_config.yml yeild expected values 
+    '''
     def setUp(self):
         self.config_file = 'tests/dummy_config.yml'
         self.config = Config(self.config_file)
