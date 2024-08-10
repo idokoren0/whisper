@@ -45,6 +45,13 @@ They communicate over a default docker bridge network and can be orchestrated us
 
 2. **IMPORTANT** Create Certificates using the supplied guide under:
     whisper\certs\create_certs.txt
+    OR
+    Use the supplied bash script to generate them.
+    ```
+    cd whisper/certs
+    apt-get install openssl 
+    ./generate_certificate.sh
+    ```
     Whisper wont work without them.
     After certificate createion, the certs dir should look like this:
     ```
