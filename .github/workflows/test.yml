@@ -62,5 +62,4 @@ jobs:
       
       - name: Run E2E tests
         run: |
-          cd tests/e2e
-          python e2e_test.py
+          python tests/e2e/e2e_test.py
