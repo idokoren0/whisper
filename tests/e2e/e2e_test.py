@@ -13,11 +13,11 @@ class TestE2E(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        # Fetch logs before stopping the services
+        cls.logs = cls.get_logs("receiver")
+
         # Stop the services and clean up
         subprocess.run(["docker-compose", "down", "--volumes", "--remove-orphans"], check=True)
-
-        # Fetch logs after the services have been stopped
-        cls.logs = cls.get_logs("receiver")
 
     @classmethod
     def get_logs(cls, container):
@@ -32,14 +32,17 @@ class TestE2E(unittest.TestCase):
         return result.stdout
 
     def test_message_flow(self):
-        # Perform the log check after services have been stopped
-        expected_message = "Hello Whisper, this is a test message!"
+        # Access logs captured in tearDownClass
+        logs = self.__class__.logs
 
         # Print logs for debugging purposes
-        print(self.logs)
+        print(logs)
+
+        # Expected message in logs
+        expected_message = "Hello Whisper, this is a test message!"
 
         # Check if the expected message is in the logs
-        self.assertIn(expected_message, self.logs, "The expected message was not found in the receiver's logs.")
+        self.assertIn(expected_message, logs, "The expected message was not found in the receiver's logs.")
 
 if __name__ == '__main__':
     unittest.main()
